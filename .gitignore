@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/
+.idea/
+
+# dependencies / build（app/.gitignore にも定義あり）
+node_modules/
+.expo/
+dist/
+
+# create-expo-app が作った入れ子リポジトリの退避（プッシュしない）
+app/nested-git-backup/

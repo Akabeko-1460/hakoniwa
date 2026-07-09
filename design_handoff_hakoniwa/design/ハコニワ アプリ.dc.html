@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<style>
+  html,body{margin:0;height:100%}
+  body{background:radial-gradient(120% 120% at 50% 0%,#F1E8D9,#E4D9C4);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px;padding:24px 0}
+  .cap{font:500 12px "Zen Kaku Gothic New";color:#8B7355;text-align:center}
+  .cap b{font-family:"Zen Maru Gothic";font-weight:900;color:#4A3728}
+  .ph{background:repeating-linear-gradient(135deg,#E9DECC 0 9px,#F2EADA 9px 18px);display:flex;align-items:center;justify-content:center;color:#B3A188;font:600 10px ui-monospace,Menlo,monospace;text-align:center;letter-spacing:.03em}
+  .tap{cursor:pointer;transition:transform .12s ease,filter .12s ease}
+  .tap:active{transform:scale(.96);filter:brightness(.97)}
+  .scr{animation:fade .28s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  @keyframes hako-pulse{0%{box-shadow:0 0 0 0 rgba(127,166,196,.55),0 4px 11px rgba(74,55,40,.35)}100%{box-shadow:0 0 0 16px rgba(127,166,196,0),0 4px 11px rgba(74,55,40,.35)}}
+  @keyframes hako-pop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+  @keyframes hako-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+</style>
+</helmet>
+<div class="cap"><b>ハコニワ</b> ・ 動くモック（スキャン／録音はダミー）</div>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<div class="scr" style="height:874px;background:#FBF6EE;display:flex;flex-direction:column;overflow:hidden;font-family:'Zen Kaku Gothic New',system-ui">
+  <div style="padding:56px 20px 0;flex:1;overflow:auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div>
+        <div style="font:500 12px 'Zen Kaku Gothic New';color:#A18A72">こんにちは、ゆいさん</div>
+        <div style="font:900 27px/1.1 'Zen Maru Gothic';color:#4A3728;margin-top:3px">ハコニワ</div>
+      </div>
+      <div style="width:42px;height:42px;border-radius:50%;background:#F0E7D7;display:flex;align-items:center;justify-content:center">
+        <div class="ph" style="width:42px;height:42px;border-radius:50%;font-size:8px">似顔</div>
+      </div>
+    </div>
+    <div style="font:500 13px/1.5 'Zen Kaku Gothic New';color:#8B7355;margin-bottom:20px">大切なモノを、思い出と一緒に。</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div class="tap" onClick="{{ goSota }}" style="background:#fff;border:1.5px solid rgba(120,85,55,.14);border-radius:22px;overflow:hidden;box-shadow:0 8px 20px rgba(120,85,55,.10)">
+        <div style="height:118px;overflow:hidden;background:#EFE7D9"><img src="assets/room-sample.png" alt="そうたの部屋" style="width:100%;height:100%;object-fit:cover;display:block"/></div>
+        <div style="padding:11px 13px 13px">
+          <div style="font:700 15px 'Zen Maru Gothic';color:#4A3728">そうた</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:5px">
+            <span style="font:600 11px 'Zen Kaku Gothic New';color:#E08A63;background:#FBEDE4;padding:2px 8px;border-radius:999px">{{ sotaCount }}</span>
+            <span style="font:500 11px 'Zen Kaku Gothic New';color:#A18A72">6さい</span>
+          </div>
+        </div>
+      </div>
+      <div class="tap" onClick="{{ goMio }}" style="background:#fff;border:1.5px solid rgba(120,85,55,.14);border-radius:22px;overflow:hidden;box-shadow:0 8px 20px rgba(120,85,55,.10)">
+        <div style="height:118px;overflow:hidden;background:#EFE7D9"><img src="assets/room-sample.png" alt="みおの部屋" style="width:100%;height:100%;object-fit:cover;display:block;filter:hue-rotate(18deg) saturate(.9)"/></div>
+        <div style="padding:11px 13px 13px">
+          <div style="font:700 15px 'Zen Maru Gothic';color:#4A3728">みお</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:5px">
+            <span style="font:600 11px 'Zen Kaku Gothic New';color:#8BA36F;background:#EEF2E6;padding:2px 8px;border-radius:999px">{{ mioCount }}</span>
+            <span style="font:500 11px 'Zen Kaku Gothic New';color:#A18A72">3さい</span>
+          </div>
+        </div>
+      </div>
+      <div class="tap" onClick="{{ goScan }}" style="grid-column:1 / -1;border:2px dashed rgba(120,85,55,.28);border-radius:22px;padding:16px;display:flex;align-items:center;gap:13px;background:rgba(255,255,255,.4)">
+        <div style="width:44px;height:44px;border-radius:50%;background:#E08A63;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 3v14M3 10h14" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <div style="font:700 14px 'Zen Maru Gothic';color:#4A3728">あたらしい ハコニワ</div>
+          <div style="font:500 11px 'Zen Kaku Gothic New';color:#A18A72;margin-top:2px">家族のおへやを つくる</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="font:700 13px 'Zen Maru Gothic';color:#4A3728;margin:22px 0 11px">さいきん ふえた思い出</div>
+    <div style="display:flex;gap:11px">
+      <div class="tap" onClick="{{ goSota }}" style="flex:1;background:#fff;border:1.5px solid rgba(120,85,55,.12);border-radius:16px;overflow:hidden">
+        <div class="ph" style="height:66px;font-size:8px">ぬいぐるみ</div>
+        <div style="padding:7px 9px;font:600 11px 'Zen Kaku Gothic New';color:#5C4A38">くまのプー</div>
+      </div>
+      <div class="tap" onClick="{{ goSota }}" style="flex:1;background:#fff;border:1.5px solid rgba(120,85,55,.12);border-radius:16px;overflow:hidden">
+        <div class="ph" style="height:66px;font-size:8px">工作</div>
+        <div style="padding:7px 9px;font:600 11px 'Zen Kaku Gothic New';color:#5C4A38">ねんど</div>
+      </div>
+      <div class="tap" onClick="{{ goSota }}" style="flex:1;background:#fff;border:1.5px solid rgba(120,85,55,.12);border-radius:16px;overflow:hidden">
+        <div class="ph" style="height:66px;font-size:8px">絵</div>
+        <div style="padding:7px 9px;font:600 11px 'Zen Kaku Gothic New';color:#5C4A38">かぞくの絵</div>
+      </div>
+    </div>
+    <div style="height:20px"></div>
+  </div>
+
+  <div style="display:flex;align-items:flex-end;justify-content:space-around;background:#fff;border-top:1.5px solid rgba(120,85,55,.10);padding:9px 8px 26px">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
+      <svg width="23" height="23" viewBox="0 0 24 24"><path d="M4 11l8-6 8 6v8a1 1 0 01-1 1h-4v-6h-6v6H5a1 1 0 01-1-1z" fill="#E08A63"/></svg>
+      <span style="font:700 9.5px 'Zen Kaku Gothic New';color:#E08A63">ホーム</span>
+    </div>
+    <div class="tap" onClick="{{ goMemories }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
+      <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="#B7A488" stroke-width="2"/><path d="M15.5 15.5L20 20" stroke="#B7A488" stroke-width="2" stroke-linecap="round"/></svg>
+      <span style="font:600 9.5px 'Zen Kaku Gothic New';color:#B7A488">さがす</span>
+    </div>
+    <div class="tap" onClick="{{ goScan }}" style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;margin-top:-14px">
+      <div style="width:50px;height:50px;border-radius:50%;background:#E08A63;box-shadow:0 6px 14px rgba(224,138,99,.4);display:flex;align-items:center;justify-content:center">
+        <svg width="24" height="24" viewBox="0 0 20 20"><path d="M10 3v14M3 10h14" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>
+      </div>
+      <span style="font:700 9.5px 'Zen Kaku Gothic New';color:#E08A63">のこす</span>
+    </div>
+    <div class="tap" onClick="{{ goMemories }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
+      <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.5-7-9.5A3.5 3.5 0 0112 7a3.5 3.5 0 017 3.5C19 15.5 12 20 12 20z" stroke="#B7A488" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span style="font:600 9.5px 'Zen Kaku Gothic New';color:#B7A488">おもいで</span>
+    </div>
+    <div class="tap" onClick="{{ goSettings }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
+      <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3.2" stroke="#B7A488" stroke-width="2"/><path d="M12 4v2M12 18v2M4 12h2M18 12h2M6 6l1.5 1.5M16.5 16.5L18 18M18 6l-1.5 1.5M7.5 16.5L6 18" stroke="#B7A488" stroke-width="2" stroke-linecap="round"/></svg>
+      <span style="font:600 9.5px 'Zen Kaku Gothic New';color:#B7A488">せってい</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isOnboard }}">
+<div class="scr" style="height:874px;background:linear-gradient(180deg,#F6EEDF,#EBDCC3);display:flex;flex-direction:column;overflow:hidden;font-family:'Zen Kaku Gothic New',system-ui">
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 34px;text-align:center">
+    <div style="position:relative;width:210px;height:210px;margin-bottom:34px">
+      <div style="position:absolute;inset:0;border-radius:34px;background:linear-gradient(150deg,#CBA271,#A97C4E);box-shadow:0 24px 44px rgba(120,85,55,.32);animation:hako-float 5s ease-in-out infinite"></div>
+      <div style="position:absolute;inset:10px;border-radius:26px;overflow:hidden"><img src="assets/room-sample.png" style="width:100%;height:100%;object-fit:cover;display:block" alt=""/></div>
+      <div style="position:absolute;top:38%;left:32%;width:26px;height:26px;border-radius:50%;background:#fff;border:2.5px solid #E08A63;box-shadow:0 4px 11px rgba(74,55,40,.3)"></div>
+      <div style="position:absolute;top:26%;right:26%;width:22px;height:22px;border-radius:50%;background:#fff;border:2.5px solid #8BA36F;box-shadow:0 4px 11px rgba(74,55,40,.3)"></div>
+    </div>
+    <div style="font:900 30px/1.25 'Zen Maru Gothic';color:#4A3728">大切なモノを、<br>思い出と一緒に。</div>
+    <div style="font:500 14px/1.9 'Zen Kaku Gothic New';color:#8B7355;margin-top:16px;max-width:280px">子どもの宝物を3Dスキャンして、<br>ちいさなハコニワにのこそう。<br>写真やこえメモも いっしょに。</div>
+  </div>
+  <div style="padding:0 28px 20px;display:flex;flex-direction:column;gap:11px">
+    <div class="tap" onClick="{{ startApp }}" style="background:#E08A63;border-radius:16px;padding:16px;text-align:center;font:700 16px 'Zen Maru Gothic';color:#fff;box-shadow:0 10px 22px rgba(224,138,99,.34)">はじめる</div>
+    <div style="text-align:center;font:600 12px 'Zen Kaku Gothic New';color:#A18A72;padding:6px">すでに アカウントを おもちの方</div>
+  </div>
+  <div style="height:26px"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isMemories }}">
+<div class="scr" style="height:874px;background:#FBF6EE;display:flex;flex-direction:column;overflow:hidden;font-family:'Zen Kaku Gothic New',system-ui">
+  <div style="padding:56px 20px 6px">
+    <div style="font:900 24px 'Zen Maru Gothic';color:#4A3728">おもいで</div>
+    <div style="font:500 11px 'Zen Kaku Gothic New';color:#A18A72;margin-top:2px">ぜんぶで {{ totalCount }}コ ・ 古いものから いまへ</div>
+    <div style="margin-top:13px;display:flex;align-items:center;gap:9px;background:#fff;border:1.5px solid rgba(120,85,55,.14);border-radius:14px;padding:10px 13px">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="#C6B79E" stroke-width="2"/><path d="M15.5 15.5L20 20" stroke="#C6B79E" stroke-width="2" stroke-linecap="round"/></svg>
+      <span style="font:500 12.5px 'Zen Kaku Gothic New';color:#C6B79E">思い出をさがす</span>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <div style="font:700 11.5px 'Zen Maru Gothic';color:#fff;background:#4A3728;padding:5px 14px;border-radius:999px">すべて</div>
+      <div style="font:700 11.5px 'Zen Maru Gothic';color:#7A6650;background:#F0E7D7;padding:5px 14px;border-radius:999px">そうた</div>
+      <div style="font:700 11.5px 'Zen Maru Gothic';color:#7A6650;background:#F0E7D7;padding:5px 14px;border-radius:999px">みお</div>
+    </div>
+  </div>
+  <div style="flex:1;overflow:auto;padding:16px 20px 20px;position:relative">
+    <div style="position:absolute;left:33px;top:16px;bottom:20px;width:2px;background:#EADFCC"></div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="4">
+        <div class="tap" onClick="{{ t.openIt }}" style="display:flex;gap:14px;align-items:flex-start">
+          <div style="flex-shrink:0;width:28px;text-align:center;position:relative;z-index:1">
+            <div style="width:14px;height:14px;border-radius:50%;background:{{ t.tone }};margin:6px auto 0;border:3px solid #FBF6EE"></div>
+            <div style="font:700 10px 'Zen Maru Gothic';color:#A18A72;margin-top:4px">{{ t.year }}</div>
+          </div>
+          <div style="flex:1;background:#fff;border:1.5px solid rgba(120,85,55,.12);border-radius:18px;padding:11px 13px;box-shadow:0 6px 14px rgba(120,85,55,.07)">
+            <div style="display:flex;align-items:center;gap:7px">
+              <div style="font:700 14px 'Zen Maru Gothic';color:#4A3728">{{ t.label }}</div>
+              <span style="font:600 9.5px 'Zen Kaku Gothic New';color:#7A6650;background:#F0E7D7;padding:1px 7px;border-radius:999px">{{ t.child }}</span>
+            </div>
+            <div style="font:500 11px/1.5 'Zen Kaku Gothic New';color:#8B7355;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ t.memo }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="display:flex;align-items:flex-end;justify-content:space-around;background:#fff;border-top:1.5px solid rgba(120,85,55,.10);padding:9px 8px 26px">
+    <div class="tap" onClick="{{ goHome }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
+      <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M4 11l8-6 8 6v8a1 1 0 01-1 1h-4v-6h-6v6H5a1 1 0 01-1-1z" stroke="#B7A488" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span style="font:600 9.5px 'Zen Kaku Gothic New';color:#B7A488">ホーム</span>
+    </div>
+    <div class="tap" onClick="{{ goMemories }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
+      <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="#E08A63" stroke-width="2"/><path d="M15.5 15.5L20 20" stroke="#E08A63" stroke-width="2" stroke-linecap="round"/></svg>
+      <span style="font:700 9.5px 'Zen Kaku Gothic New';color:#E08A63">さがす</span>
+    </div>
+    <div class="tap" onClick="{{ goScan }}" style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;margin-top:-14px">
+      <div style="width:50px;height:50px;border-radius:50%;background:#E08A63;box-shadow:0 6px 14px rgba(224,138,99,.4);display:flex;align-items:center;justify-content:center">
+        <svg width="24" height="24" viewBox="0 0 20 20"><path d="M10 3v14M3 10h14" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>
+      </div>
+      <span style="font:700 9.5px 'Zen Kaku Gothic New';color:#B7A488">のこす</span>
+    </div>
+    <div class="tap" onClick="{{ goMemories }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
+      <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.5-7-9.5A3.5 3.5 0 0112 7a3.5 3.5 0 017 3.5C19 15.5 12 20 12 20z" stroke="#E08A63" stroke-width="2" stroke-linejoin="round" fill="#FBEDE4"/></svg>
+      <span style="font:700 9.5px 'Zen Kaku Gothic New';color:#E08A63">おもいで</span>
+    </div>
+    <div class="tap" onClick="{{ goSettings }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
+      <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3.2" stroke="#B7A488" stroke-width="2"/><path d="M12 4v2M12 18v2M4 12h2M18 12h2M6 6l1.5 1.5M16.5 16.5L18 18M18 6l-1.5 1.5M7.5 16.5L6 18" stroke="#B7A488" stroke-width="2" stroke-linecap="round"/></svg>
+      <span style="font:600 9.5px 'Zen Kaku Gothic New';color:#B7A488">せってい</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isSettings }}">
+<div class="scr" style="height:874px;background:#FBF6EE;display:flex;flex-direction:column;overflow:hidden;font-family:'Zen Kaku Gothic New',system-ui">
+  <div style="padding:56px 20px 8px"><div style="font:900 24px 'Zen Maru Gothic';color:#4A3728">せってい</div></div>
+  <div style="flex:1;overflow:auto;padding:8px 20px 20px">
+    <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid rgba(120,85,55,.14);border-radius:20px;padding:14px;box-shadow:0 6px 16px rgba(120,85,55,.08)">
+      <div class="ph" style="width:54px;height:54px;border-radius:50%;font-size:8px">似顔</div>
+      <div style="flex:1"><div style="font:700 16px 'Zen Maru Gothic';color:#4A3728">ゆい</div><div style="font:500 11px 'Zen Kaku Gothic New';color:#A18A72;margin-top:2px">yui@example.com</div></div>
+      <svg width="16" height="16" viewBox="0 0 20 20"><path d="M7 4l6 6-6 6" stroke="#C6B79E" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+
+    <div style="font:700 12px 'Zen Maru Gothic';color:#A18A72;margin:22px 6px 9px">かぞく</div>
+    <div style="background:#fff;border:1.5px solid rgba(120,85,55,.12);border-radius:18px;overflow:hidden">
+      <div style="display:flex;align-items:center;gap:11px;padding:13px 15px;border-bottom:1px solid #F1E9DA"><span style="width:11px;height:11px;border-radius:50%;background:#E08A63"></span><span style="flex:1;font:700 14px 'Zen Maru Gothic';color:#4A3728">そうた</span><span style="font:500 11px 'Zen Kaku Gothic New';color:#A18A72">6さい</span></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:13px 15px;border-bottom:1px solid #F1E9DA"><span style="width:11px;height:11px;border-radius:50%;background:#8BA36F"></span><span style="flex:1;font:700 14px 'Zen Maru Gothic';color:#4A3728">みお</span><span style="font:500 11px 'Zen Kaku Gothic New';color:#A18A72">3さい</span></div>
+      <div class="tap" style="display:flex;align-items:center;gap:11px;padding:13px 15px;color:#E08A63"><span style="width:22px;height:22px;border-radius:50%;background:#FBEDE4;display:flex;align-items:center;justify-content:center;font:700 15px 'Zen Maru Gothic'">＋</span><span style="font:700 13px 'Zen Maru Gothic'">子どもを ついか</span></div>
+    </div>
+
+    <div style="font:700 12px 'Zen Maru Gothic';color:#A18A72;margin:22px 6px 9px">アプリ</div>
+    <div style="background:#fff;border:1.5px solid rgba(120,85,55,.12);border-radius:18px;overflow:hidden">
+      <div style="display:flex;align-items:center;padding:14px 15px;border-bottom:1px solid #F1E9DA"><span style="flex:1;font:600 13px 'Zen Kaku Gothic New';color:#5C4A38">スキャンの画質</span><span style="font:600 12px 'Zen Kaku Gothic New';color:#A18A72">たかい ›</span></div>
+      <div style="display:flex;align-items:center;padding:14px 15px;border-bottom:1px solid #F1E9DA"><span style="flex:1;font:600 13px 'Zen Kaku Gothic New';color:#5C4A38">バックアップ</span><div style="width:42px;height:25px;border-radius:999px;background:#8BA36F;position:relative"><div style="position:absolute;top:2px;right:2px;width:21px;height:21px;border-radius:50%;background:#fff"></div></div></div>
+      <div style="display:flex;align-items:center;padding:14px 15px"><span style="flex:1;font:600 13px 'Zen Kaku Gothic New';color:#5C4A38">おもいで通知</span><div style="width:42px;height:25px;border-radius:999px;background:#E4D8C2;position:relative"><div style="position:absolute;top:2px;left:2px;width:21px;height:21px;border-radius:50%;background:#fff"></div></div></div>
+    </div>
+
+    <div class="tap" onClick="{{ startApp }}" style="text-align:center;font:700 13px 'Zen Maru Gothic';color:#C25E3A;padding:20px">オンボーディングを もう一度みる</div>
+  </div>
+  <div style="display:flex;align-items:flex-end;justify-content:space-around;background:#fff;border-top:1.5px solid rgba(120,85,55,.10);padding:9px 8px 26px">
+    <div class="tap" onClick="{{ goHome }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
+      <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M4 11l8-6 8 6v8a1 1 0 01-1 1h-4v-6h-6v6H5a1 1 0 01-1-1z" stroke="#B7A488" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span style="font:600 9.5px 'Zen Kaku Gothic New';color:#B7A488">ホーム</span>
+    </div>
+    <div class="tap" onClick="{{ goMemories }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
+      <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="#B7A488" stroke-width="2"/><path d="M15.5 15.5L20 20" stroke="#B7A488" stroke-width="2" stroke-linecap="round"/></svg>
+      <span style="font:600 9.5px 'Zen Kaku Gothic New';color:#B7A488">さがす</span>
+    </div>
+    <div class="tap" onClick="{{ goScan }}" style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;margin-top:-14px">
+      <div style="width:50px;height:50px;border-radius:50%;background:#E08A63;box-shadow:0 6px 14px rgba(224,138,99,.4);display:flex;align-items:center;justify-content:center">
+        <svg width="24" height="24" viewBox="0 0 20 20"><path d="M10 3v14M3 10h14" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>
+      </div>
+      <span style="font:700 9.5px 'Zen Kaku Gothic New';color:#B7A488">のこす</span>
+    </div>
+    <div class="tap" onClick="{{ goMemories }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
+      <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.5-7-9.5A3.5 3.5 0 0112 7a3.5 3.5 0 017 3.5C19 15.5 12 20 12 20z" stroke="#B7A488" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span style="font:600 9.5px 'Zen Kaku Gothic New';color:#B7A488">おもいで</span>
+    </div>
+    <div class="tap" onClick="{{ goSettings }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
+      <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3.2" stroke="#E08A63" stroke-width="2"/><path d="M12 4v2M12 18v2M4 12h2M18 12h2M6 6l1.5 1.5M16.5 16.5L18 18M18 6l-1.5 1.5M7.5 16.5L6 18" stroke="#E08A63" stroke-width="2" stroke-linecap="round"/></svg>
+      <span style="font:700 9.5px 'Zen Kaku Gothic New';color:#E08A63">せってい</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isScan }}">
+<div class="scr" style="height:874px;background:#FBF6EE;display:flex;flex-direction:column;overflow:hidden;font-family:'Zen Kaku Gothic New',system-ui">
+  <div style="padding:56px 20px 10px;display:flex;align-items:center;justify-content:space-between">
+    <div class="tap" onClick="{{ goHome }}" style="width:38px;height:38px;border-radius:50%;background:#F0E7D7;display:flex;align-items:center;justify-content:center">
+      <svg width="17" height="17" viewBox="0 0 20 20"><path d="M13 4l-6 6 6 6" stroke="#7A6650" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div style="font:700 16px 'Zen Maru Gothic';color:#4A3728">3Dスキャン</div>
+    <div style="width:38px;height:38px;border-radius:50%;background:#F0E7D7;display:flex;align-items:center;justify-content:center;font:700 15px 'Zen Maru Gothic';color:#7A6650">?</div>
+  </div>
+
+  <div style="flex:1;overflow:auto;padding:6px 20px 0">
+    <div style="text-align:center;font:700 15px 'Zen Maru Gothic';color:#4A3728;margin:6px 0 3px">つみき</div>
+    <div style="text-align:center;font:500 12px 'Zen Kaku Gothic New';color:#A18A72;margin-bottom:16px">まわりを ぐるっと写してね</div>
+
+    <div style="position:relative;border-radius:28px;overflow:hidden;background:#EFE7D9;border:1.5px solid rgba(120,85,55,.14)">
+      <div class="ph" style="height:340px;font-size:11px">スキャン中の<br>ライブカメラ映像<br>（つみき）</div>
+      <div style="position:absolute;top:14px;left:14px;width:26px;height:26px;border-top:3px solid #fff;border-left:3px solid #fff;border-radius:8px 0 0 0"></div>
+      <div style="position:absolute;top:14px;right:14px;width:26px;height:26px;border-top:3px solid #fff;border-right:3px solid #fff;border-radius:0 8px 0 0"></div>
+      <div style="position:absolute;bottom:14px;left:14px;width:26px;height:26px;border-bottom:3px solid #fff;border-left:3px solid #fff;border-radius:0 0 0 8px"></div>
+      <div style="position:absolute;bottom:14px;right:14px;width:26px;height:26px;border-bottom:3px solid #fff;border-right:3px solid #fff;border-radius:0 0 8px 0"></div>
+      <svg width="150" height="150" viewBox="0 0 150 150" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">
+        <circle cx="75" cy="75" r="66" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="6" stroke-dasharray="6 8" stroke-linecap="round"/>
+        <circle cx="75" cy="75" r="66" fill="none" stroke="#E08A63" stroke-width="6" stroke-linecap="round" stroke-dasharray="{{ ringDash }}" transform="rotate(-90 75 75)"/>
+      </svg>
+      <div style="position:absolute;left:50%;bottom:16px;transform:translateX(-50%);background:rgba(74,55,40,.82);color:#fff;font:600 11px 'Zen Kaku Gothic New';padding:5px 13px;border-radius:999px;white-space:nowrap">{{ scanHint }}</div>
+    </div>
+
+    <div style="margin-top:18px;display:flex;align-items:center;justify-content:space-between">
+      <span style="font:600 12px 'Zen Kaku Gothic New';color:#5C4A38">キャプチャ 進行ど</span>
+      <span style="font:700 13px 'Zen Maru Gothic';color:#E08A63">{{ scanCount }}</span>
+    </div>
+    <div style="margin-top:8px;height:9px;border-radius:999px;background:#EEE4D3;overflow:hidden">
+      <div style="width:{{ scanPct }};height:100%;background:linear-gradient(90deg,#EFA981,#E08A63);transition:width .3s ease"></div>
+    </div>
+  </div>
+
+  <div style="padding:16px 20px 30px;display:flex;align-items:center;justify-content:center;gap:26px">
+    <div class="tap" onClick="{{ retake }}" style="display:flex;flex-direction:column;align-items:center;gap:4px">
+      <div style="width:46px;height:46px;border-radius:50%;background:#F0E7D7;display:flex;align-items:center;justify-content:center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 108-8" stroke="#7A6650" stroke-width="2.2" stroke-linecap="round"/><path d="M4 5v4h4" stroke="#7A6650" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span style="font:600 10px 'Zen Kaku Gothic New';color:#A18A72">やり直す</span>
+    </div>
+    <div class="tap" onClick="{{ capture }}" style="width:76px;height:76px;border-radius:50%;background:#fff;border:4px solid #E08A63;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(224,138,99,.35)">
+      <div style="width:56px;height:56px;border-radius:50%;background:#E08A63"></div>
+    </div>
+    <div class="tap" onClick="{{ goMemory }}" style="display:flex;flex-direction:column;align-items:center;gap:4px;opacity:{{ doneOpacity }}">
+      <div style="width:46px;height:46px;border-radius:50%;background:#EEF2E6;display:flex;align-items:center;justify-content:center">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 6" stroke="#8BA36F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span style="font:600 10px 'Zen Kaku Gothic New';color:#8BA36F">完了</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isMemory }}">
+<div class="scr" style="height:874px;background:#FBF6EE;display:flex;flex-direction:column;overflow:hidden;font-family:'Zen Kaku Gothic New',system-ui">
+  <div style="padding:56px 20px 10px;display:flex;align-items:center;justify-content:space-between">
+    <div class="tap" onClick="{{ goScan }}" style="width:38px;height:38px;border-radius:50%;background:#F0E7D7;display:flex;align-items:center;justify-content:center">
+      <svg width="17" height="17" viewBox="0 0 20 20"><path d="M13 4l-6 6 6 6" stroke="#7A6650" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div style="font:700 16px 'Zen Maru Gothic';color:#4A3728">思い出をのこす</div>
+    <div class="tap" onClick="{{ goSota }}" style="font:700 13px 'Zen Maru Gothic';color:#C6B79E">スキップ</div>
+  </div>
+
+  <div style="flex:1;overflow:auto;padding:6px 20px 0">
+    <div style="display:flex;gap:13px;align-items:center;background:#fff;border:1.5px solid rgba(120,85,55,.14);border-radius:20px;padding:12px;box-shadow:0 6px 16px rgba(120,85,55,.08)">
+      <div class="ph" style="width:74px;height:74px;border-radius:15px;flex-shrink:0;font-size:8px">3Dモデル</div>
+      <div style="flex:1">
+        <div style="font:500 10.5px 'Zen Kaku Gothic New';color:#A18A72;margin-bottom:3px">スキャンできました！</div>
+        <input value="つみき" style="width:100%;box-sizing:border-box;border:none;border-bottom:1.5px solid #EADFCC;background:transparent;font:700 17px 'Zen Maru Gothic';color:#4A3728;padding:2px 0 5px;outline:none"/>
+        <div style="font:500 10px 'Zen Kaku Gothic New';color:#C6B79E;margin-top:3px">名まえを つけてね</div>
+      </div>
+    </div>
+
+    <div style="font:700 12.5px 'Zen Maru Gothic';color:#4A3728;margin:20px 0 9px">写真をそえる</div>
+    <div style="display:flex;gap:10px">
+      <div class="ph" style="width:78px;height:78px;border-radius:15px;font-size:8px">写真1</div>
+      <div class="ph" style="width:78px;height:78px;border-radius:15px;font-size:8px">写真2</div>
+      <div class="tap" style="width:78px;height:78px;border-radius:15px;border:2px dashed rgba(120,85,55,.28);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:rgba(255,255,255,.4)">
+        <svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="#C29A72" stroke-width="2.2" stroke-linecap="round"/></svg>
+        <span style="font:600 9px 'Zen Kaku Gothic New';color:#C29A72">ついか</span>
+      </div>
+    </div>
+
+    <div style="font:700 12.5px 'Zen Maru Gothic';color:#4A3728;margin:20px 0 9px">こえメモ</div>
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid rgba(120,85,55,.14);border-radius:18px;padding:11px 14px">
+      <div class="tap" onClick="{{ toggleRec }}" style="width:40px;height:40px;border-radius:50%;background:{{ recColor }};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="9" y="3" width="6" height="12" rx="3" fill="#fff"/><path d="M6 11a6 6 0 0012 0M12 17v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <svg width="150" height="26" viewBox="0 0 150 26" style="flex:1"><g fill="#E7C4AE"><rect x="0" y="9" width="3" height="8" rx="1.5"/><rect x="7" y="5" width="3" height="16" rx="1.5"/><rect x="14" y="2" width="3" height="22" rx="1.5"/><rect x="21" y="7" width="3" height="12" rx="1.5"/><rect x="28" y="4" width="3" height="18" rx="1.5"/><rect x="35" y="10" width="3" height="6" rx="1.5"/><rect x="42" y="6" width="3" height="14" rx="1.5"/><rect x="49" y="3" width="3" height="20" rx="1.5"/><rect x="56" y="8" width="3" height="10" rx="1.5"/><rect x="63" y="5" width="3" height="16" rx="1.5"/></g><g fill="#EBDCC6"><rect x="70" y="7" width="3" height="12" rx="1.5"/><rect x="77" y="4" width="3" height="18" rx="1.5"/><rect x="84" y="9" width="3" height="8" rx="1.5"/><rect x="91" y="6" width="3" height="14" rx="1.5"/><rect x="98" y="2" width="3" height="22" rx="1.5"/><rect x="105" y="8" width="3" height="10" rx="1.5"/><rect x="112" y="5" width="3" height="16" rx="1.5"/><rect x="119" y="10" width="3" height="6" rx="1.5"/><rect x="126" y="6" width="3" height="14" rx="1.5"/><rect x="133" y="4" width="3" height="18" rx="1.5"/><rect x="140" y="9" width="3" height="8" rx="1.5"/></g></svg>
+      <span style="font:700 11px 'Zen Maru Gothic';color:#8B7355;flex-shrink:0">{{ recLabel }}</span>
+    </div>
+
+    <div style="font:700 12.5px 'Zen Maru Gothic';color:#4A3728;margin:20px 0 9px">おもいで メモ</div>
+    <div style="background:#fff;border:1.5px solid rgba(120,85,55,.14);border-radius:18px;padding:13px 15px;font:500 13px/1.7 'Zen Kaku Gothic New';color:#5C4A38">たかくたかく つみあげて、くずして わらう。<br>まいにち あそんだ つみき。<span style="color:#D8C9B2">｜</span></div>
+
+    <div style="display:flex;gap:12px;margin-top:18px">
+      <div style="flex:1">
+        <div style="font:600 11px 'Zen Kaku Gothic New';color:#A18A72;margin-bottom:6px">だれの？</div>
+        <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid rgba(120,85,55,.14);border-radius:14px;padding:9px 12px">
+          <span style="width:9px;height:9px;border-radius:50%;background:#E08A63"></span>
+          <span style="font:700 13px 'Zen Maru Gothic';color:#4A3728">そうた</span>
+        </div>
+      </div>
+      <div style="flex:1">
+        <div style="font:600 11px 'Zen Kaku Gothic New';color:#A18A72;margin-bottom:6px">いつ？</div>
+        <div style="background:#fff;border:1.5px solid rgba(120,85,55,.14);border-radius:14px;padding:9px 12px;font:700 13px 'Zen Maru Gothic';color:#4A3728">2024年 冬</div>
+      </div>
+    </div>
+    <div style="height:18px"></div>
+  </div>
+
+  <div style="padding:12px 20px 30px;background:#fff;border-top:1.5px solid rgba(120,85,55,.10)">
+    <div class="tap" onClick="{{ saveItem }}" style="background:#E08A63;border-radius:16px;padding:15px;text-align:center;font:700 16px 'Zen Maru Gothic';color:#fff;box-shadow:0 8px 18px rgba(224,138,99,.32)">ハコニワに しまう</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isSpace }}">
+<div class="scr" style="height:874px;background:#F3EAD9;display:flex;flex-direction:column;overflow:hidden;font-family:'Zen Kaku Gothic New',system-ui;position:relative">
+  <div style="position:absolute;top:0;left:0;right:0;height:56%;background:linear-gradient(180deg,#EBDFC8,#F3EAD9)"></div>
+
+  <div style="position:relative;padding:56px 20px 8px;display:flex;align-items:center;justify-content:space-between">
+    <div class="tap" onClick="{{ goHome }}" style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.75);display:flex;align-items:center;justify-content:center">
+      <svg width="17" height="17" viewBox="0 0 20 20"><path d="M13 4l-6 6 6 6" stroke="#7A6650" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div style="text-align:center">
+      <div style="font:900 17px 'Zen Maru Gothic';color:#4A3728">{{ spaceTitle }}</div>
+      <div style="font:500 10.5px 'Zen Kaku Gothic New';color:#A18A72">{{ spaceSub }}</div>
+    </div>
+    <div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.75);display:flex;align-items:center;justify-content:center">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="12" r="2.2" fill="#7A6650"/><circle cx="18" cy="6" r="2.2" fill="#7A6650"/><circle cx="18" cy="18" r="2.2" fill="#7A6650"/><path d="M8 11l8-4M8 13l8 4" stroke="#7A6650" stroke-width="1.6"/></svg>
+    </div>
+  </div>
+
+  <sc-if value="{{ justAdded }}">
+    <div style="position:relative;margin:0 20px 4px;background:#EEF2E6;border:1.5px solid #CBDAB6;border-radius:14px;padding:9px 14px;display:flex;align-items:center;gap:9px">
+      <span style="width:22px;height:22px;border-radius:50%;background:#8BA36F;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 6" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span style="font:700 12px 'Zen Maru Gothic';color:#5E7345">ハコニワに「{{ selName }}」をおきました</span>
+    </div>
+  </sc-if>
+
+  <div style="position:relative;flex:1;display:flex;align-items:center;justify-content:center;padding:6px 18px 0">
+    <div style="position:relative;width:100%;border-radius:24px;padding:11px;background:linear-gradient(150deg,#CBA271,#A97C4E);box-shadow:0 20px 38px rgba(120,85,55,.30),inset 0 2px 3px rgba(255,255,255,.4)">
+      <div style="position:relative;border-radius:15px;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(0,0,0,.07)">
+        <image-slot id="hakoniwa-room" src="assets/room-sample.png" fit="cover" style="display:block;width:100%;height:300px" placeholder="ハコニワの部屋（3Dルーム）"></image-slot>
+        <sc-for list="{{ markers }}" as="m" hint-placeholder-count="3">
+          <div class="tap" onClick="{{ m.onClick }}" style="position:absolute;left:{{ m.left }};top:{{ m.top }};transform:translate(-50%,-50%);z-index:2">
+            <div style="width:{{ m.size }};height:{{ m.size }};border-radius:50%;background:#fff;border:{{ m.ring }};display:flex;align-items:center;justify-content:center;box-shadow:0 4px 11px rgba(74,55,40,.35);animation:{{ m.pulse }}">
+              <span style="width:9px;height:9px;border-radius:50%;background:{{ m.tone }}"></span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="position:absolute;top:20px;left:22px;background:rgba(74,55,40,.82);color:#fff;font:700 11px 'Zen Maru Gothic';padding:4px 11px;border-radius:999px">{{ spaceSub }}</div>
+      <div style="position:absolute;top:20px;right:22px;display:flex;flex-direction:column;gap:8px">
+        <div class="tap" style="width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 108-8" stroke="#7A6650" stroke-width="2" stroke-linecap="round"/><path d="M4 5v4h4" stroke="#7A6650" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="tap" onClick="{{ goScan }}" style="width:38px;height:38px;border-radius:12px;background:#E08A63;display:flex;align-items:center;justify-content:center;font:700 19px 'Zen Maru Gothic';color:#fff;box-shadow:0 5px 12px rgba(224,138,99,.4)">＋</div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;font:600 11px 'Zen Kaku Gothic New';color:#A18A72;padding:12px 0 2px">モノを タップすると 思い出がひらきます</div>
+
+  <sc-if value="{{ isPanelOpen }}">
+  <div style="position:relative;margin:6px 14px 24px;background:#fff;border-radius:24px;padding:14px;box-shadow:0 -2px 26px rgba(74,55,40,.16);border:1.5px solid rgba(120,85,55,.10)">
+    <div style="width:38px;height:4px;border-radius:999px;background:#E7DAC4;margin:-4px auto 12px"></div>
+    <div class="tap" onClick="{{ closePanel }}" style="position:absolute;top:14px;right:14px;width:26px;height:26px;border-radius:50%;background:#F3EAD9;display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 14 14"><path d="M2 2l10 10M12 2L2 12" stroke="#9A8368" stroke-width="2" stroke-linecap="round"/></svg></div>
+    <div style="display:flex;gap:13px">
+      <div class="ph" style="width:82px;height:82px;border-radius:16px;flex-shrink:0;font-size:8px;white-space:pre-line">{{ selPhoto }}</div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="font:700 16px 'Zen Maru Gothic';color:#4A3728">{{ selName }}</div>
+          <span style="font:600 10px 'Zen Kaku Gothic New';color:#E08A63;background:#FBEDE4;padding:2px 8px;border-radius:999px">{{ selDate }}</span>
+        </div>
+        <div style="font:500 11.5px/1.55 'Zen Kaku Gothic New';color:#7A6650;margin-top:5px">{{ selMemo }}</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:9px">
+          <div class="tap" onClick="{{ toggleRec }}" style="display:flex;align-items:center;gap:7px;background:#FBEDE4;border-radius:999px;padding:5px 12px 5px 8px">
+            <span style="width:22px;height:22px;border-radius:50%;background:#E08A63;display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 10 12"><path d="M0 0l10 6-10 6z" fill="#fff"/></svg></span>
+            <span style="font:700 11px 'Zen Maru Gothic';color:#C25E3A">こえメモ 0:12</span>
+          </div>
+          <span style="font:600 11px 'Zen Kaku Gothic New';color:#B7A488">写真 3まい</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+  <sc-if value="{{ isPanelClosed }}">
+  <div style="padding:6px 20px 30px">
+    <div class="tap" onClick="{{ goScan }}" style="background:#fff;border:1.5px solid rgba(120,85,55,.16);border-radius:16px;padding:13px;text-align:center;font:700 14px 'Zen Maru Gothic';color:#C25E3A;box-shadow:0 6px 16px rgba(120,85,55,.08)">＋ スキャンして モノをふやす</div>
+  </div>
+  </sc-if>
+</div>
+</sc-if>
+
+</x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { screen: 'onboard', progress: 0, recording: false, child: 'そうた', selectedId: null, justAdded: false, placed: false };
+
+  go(screen) { this.setState({ screen, selectedId: null }); }
+
+  select(id) { this.setState({ selectedId: id }); }
+
+  renderVals() {
+    const s = this.state;
+    const C = 2 * Math.PI * 66; // ~414.7
+    const frac = Math.min(1, s.progress / 20);
+    const items = {
+      bear: { photo: 'くまの\n写真', name: 'くまのプーさん', date: '2019年 春', memo: 'はじめて自分でえらんだ ぬいぐるみ。毎ばん いっしょに ねていました。' },
+      clay: { photo: 'ねんど\n写真', name: 'ねんど工作', date: '2023年 夏', memo: 'ようちえんで つくった さくひん。「これパパ！」と教えてくれた。' },
+      draw: { photo: '絵の\n写真', name: 'かぞくの絵', date: '2024年 秋', memo: '5人かぞくを おおきく描いた絵。すみっこに いぬのポチも。' },
+    };
+    Object.assign(items, {
+      shoes: { photo: 'くつの\n写真', name: 'はじめての靴', date: '2021年 秋', memo: 'あるきはじめた日に はいていた 小さな靴。' },
+      toy: { photo: 'がらがら\n写真', name: 'がらがら', date: '2021年 冬', memo: 'にぎると よろこんで ふっていた おもちゃ。' },
+      photo: { photo: 'たんじょう\n写真', name: 'たんじょう日', date: '2023年 春', memo: '1さいの おたんじょう日。ケーキに手をのばして。' },
+      blocks: { photo: 'つみきの\n写真', name: 'つみき', date: '2024年 冬', memo: 'たかくたかく つみあげて、くずして わらう。まいにち あそんだ つみき。' },
+    });
+    // 保存フローで置かれた新しいモノ（そうたの部屋に4つめとして増える）
+    const placedMarker = { id: 'blocks', left: '52%', top: '30%', tone: '#7FA6C4' };
+    const layout = {
+      'そうた': { base: 24, markers: [
+        { id: 'bear', left: '34%', top: '54%', tone: '#E08A63' },
+        { id: 'clay', left: '70%', top: '60%', tone: '#8BA36F' },
+        { id: 'draw', left: '78%', top: '26%', tone: '#C6A05E' },
+      ] },
+      'みお': { base: 11, markers: [
+        { id: 'shoes', left: '30%', top: '58%', tone: '#E08A63' },
+        { id: 'toy', left: '64%', top: '52%', tone: '#8BA36F' },
+        { id: 'photo', left: '76%', top: '30%', tone: '#C6A05E' },
+      ] },
+    };
+    const cur = layout[s.child] || layout['そうた'];
+    const rawMarkers = (s.child === 'そうた' && s.placed) ? cur.markers.concat(placedMarker) : cur.markers;
+    const count = cur.base + (s.child === 'そうた' && s.placed ? 1 : 0);
+    const childInfo = { title: s.child + 'の ハコニワ', sub: count + 'コの思い出' };
+    const markers = rawMarkers.map(m => ({
+      left: m.left, top: m.top, tone: m.tone,
+      size: s.selectedId === m.id ? '38px' : '30px',
+      ring: s.selectedId === m.id ? `3px solid ${m.tone}` : `2.5px solid ${m.tone}`,
+      pulse: (s.placed && m.id === 'blocks' && s.justAdded) ? 'hako-pulse 1.4s ease-out 2' : 'none',
+      onClick: () => this.select(m.id),
+    }));
+    const sel = items[s.selectedId] || items.bear;
+
+    // おもいで タイムライン（新しい順）
+    const timelineBase = [
+      { id: 'draw', child: 'そうた', tone: '#C6A05E', year: '2024', label: 'かぞくの絵' },
+      { id: 'clay', child: 'そうた', tone: '#8BA36F', year: '2023', label: 'ねんど工作' },
+      { id: 'photo', child: 'みお', tone: '#C6A05E', year: '2023', label: 'たんじょう日' },
+      { id: 'toy', child: 'みお', tone: '#8BA36F', year: '2021', label: 'がらがら' },
+      { id: 'shoes', child: 'みお', tone: '#E08A63', year: '2021', label: 'はじめての靴' },
+      { id: 'bear', child: 'そうた', tone: '#E08A63', year: '2019', label: 'くまのプーさん' },
+    ];
+    const timeline = (s.placed ? [{ id: 'blocks', child: 'そうた', tone: '#7FA6C4', year: '2024', label: 'つみき', isNew: true }] : [])
+      .concat(timelineBase)
+      .map(t => ({ ...t, memo: items[t.id].memo, openIt: () => this.setState({ screen: 'space', child: t.child, selectedId: t.id, justAdded: false }) }));
+
+    return {
+      markers,
+      sotaCount: layout['そうた'].base + (s.placed ? 1 : 0) + 'コ',
+      mioCount: layout['みお'].base + 'コ',
+      timeline,
+      totalCount: 35 + (s.placed ? 1 : 0),
+      isPanelOpen: s.selectedId !== null,
+      isPanelClosed: s.selectedId === null,
+      closePanel: () => this.setState({ selectedId: null }),
+      justAdded: s.justAdded,
+      selPhoto: sel.photo,
+      selName: sel.name,
+      selDate: sel.date,
+      selMemo: sel.memo,
+      isOnboard: s.screen === 'onboard',
+      isHome: s.screen === 'home',
+      isScan: s.screen === 'scan',
+      isMemory: s.screen === 'memory',
+      isSpace: s.screen === 'space',
+      isMemories: s.screen === 'memories',
+      isSettings: s.screen === 'settings',
+
+      startApp: () => this.go('home'),
+      goHome: () => this.go('home'),
+      goScan: () => this.setState({ screen: 'scan', progress: 0 }),
+      goMemory: () => this.go('memory'),
+      goMemories: () => this.go('memories'),
+      goSettings: () => this.go('settings'),
+      goSota: () => this.setState({ screen: 'space', child: 'そうた', selectedId: null }),
+      goMio: () => this.setState({ screen: 'space', child: 'みお', selectedId: null }),
+      saveItem: () => { this.setState({ screen: 'space', child: 'そうた', selectedId: 'blocks', justAdded: true, placed: true }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ justAdded: false }), 3200); },
+
+      capture: () => this.setState(p => ({ progress: Math.min(20, p.progress + 3) })),
+      retake: () => this.setState({ progress: 0 }),
+
+      ringDash: `${(frac * C).toFixed(1)} ${C.toFixed(1)}`,
+      scanCount: `${s.progress} / 20 方向`,
+      scanPct: `${(frac * 100).toFixed(0)}%`,
+      scanHint: frac >= 1 ? 'キャプチャ 完了！ 右下の完了へ' : (frac > 0.5 ? 'あと ちょっと！ 反対がわを写して' : 'ぐるっと 一周してね'),
+      doneOpacity: frac >= 1 ? 1 : 0.4,
+
+      toggleRec: () => this.setState(p => ({ recording: !p.recording })),
+      recColor: s.recording ? '#C2452F' : '#E08A63',
+      recLabel: s.recording ? '● 録音中' : '0:12',
+
+      spaceTitle: childInfo.title,
+      spaceSub: childInfo.sub,
+    };
+  }
+}
+</script>
+</body>
+</html>

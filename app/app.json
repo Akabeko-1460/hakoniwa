@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "ハコニワ",
+    "slug": "hakoniwa",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#FBF6EE",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-font",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "こえメモの録音にマイクを使用します。"
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "モノの3Dスキャンにカメラを使用します。"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "思い出にそえる写真を選ぶためにライブラリへアクセスします。"
+        }
+      ]
+    ]
+  }
+}
