@@ -1,0 +1,44 @@
+name: hakoniwa
+description: 子どもの大切なモノを3Dスキャンして、家族ごとのハコニワ空間に思い出と一緒にのこすアプリ。
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # 状態管理
+  provider: ^6.1.2
+
+  # 書体（Zen Maru Gothic / Zen Kaku Gothic New）
+  google_fonts: ^6.2.1
+
+  # 3Dスキャン（多方向キャプチャ）
+  camera: ^0.11.0+2
+  # 写真をそえる
+  image_picker: ^1.1.2
+  # こえメモの録音と再生
+  record: ^6.0.0
+  audioplayers: ^6.1.0
+
+  # 永続化
+  path_provider: ^2.1.4
+  path: ^1.9.0
+  shared_preferences: ^2.3.2
+
+  # FastAPI バックエンドとの通信
+  http: ^1.2.2
+  http_parser: ^4.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/room-sample.png
