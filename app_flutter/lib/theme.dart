@@ -35,6 +35,9 @@ abstract final class AppColors {
   static const phText = Color(0xFFB3A188);
   static const phStripeA = Color(0xFFE9DECC);
   static const phStripeB = Color(0xFFF2EADA);
+  // 背景・全体（デバイス外）
+  static const outsideTop = Color(0xFFF1E8D9);
+  static const outsideBottom = Color(0xFFE4D9C4);
   static const onboardTop = Color(0xFFF6EEDF);
   static const onboardBottom = Color(0xFFEBDCC3);
   static const waveA = Color(0xFFE7C4AE);

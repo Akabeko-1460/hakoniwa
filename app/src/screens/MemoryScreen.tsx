@@ -15,7 +15,7 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
-import { colors, fonts, shadow, buttonShadow } from '../theme';
+import { colors, deviceWidth, fonts, shadow, buttonShadow } from '../theme';
 import { useStore } from '../store/Store';
 import type { Season, VoiceMemo } from '../store/types';
 import { useScreenInsets } from '../hooks/useScreenInsets';
@@ -443,6 +443,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalCard: {
+    // PCブラウザではモーダルが画面の外側に描かれるので、ここで幅を抑える
+    width: '100%',
+    maxWidth: deviceWidth,
+    alignSelf: 'center',
     backgroundColor: '#fff',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,

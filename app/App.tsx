@@ -16,6 +16,7 @@ import {
   ZenKakuGothicNew_700Bold,
 } from '@expo-google-fonts/zen-kaku-gothic-new';
 import RootNavigator from './src/navigation';
+import DeviceFrame from './src/components/DeviceFrame';
 import { StoreProvider, useStore } from './src/store/Store';
 import { colors } from './src/theme';
 
@@ -49,9 +50,11 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <StoreProvider>
-        <Root fontsLoaded={fontsLoaded} />
-      </StoreProvider>
+      <DeviceFrame>
+        <StoreProvider>
+          <Root fontsLoaded={fontsLoaded} />
+        </StoreProvider>
+      </DeviceFrame>
       <StatusBar style="dark" />
     </SafeAreaProvider>
   );

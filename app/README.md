@@ -18,6 +18,24 @@ npm start
 
 PCブラウザ確認: `npm run web` → http://localhost:8090 （3Dルーム・カメラ・保存まで動作）
 
+## Web（Vercel）へのデプロイ
+
+ルートに [`vercel.json`](vercel.json) があり、`npx expo export --platform web` の結果
+（`dist/`）をそのまま配信する。SPA なので全パスを `index.html` に rewrite している。
+
+手元で本番と同じものを確認する:
+
+```bash
+npx expo export --platform web
+npx serve dist        # もしくは python3 -m http.server --directory dist
+```
+
+**PCブラウザで開いたときは、電話サイズ（402px）の中央カラムに収まる。**
+このアプリのデザインは画面の内寸 402×874 を前提にしているので、
+ブラウザの全幅に広げるとカードも3Dルームも間のびしてしまう。
+`src/components/DeviceFrame.tsx` が、幅 520px 以上のときだけ枠に収め、
+まわりを指示書どおり「デバイス外」の背景色でうめる。スマホでは何もしない。
+
 ## 実装済み機能
 
 | 機能 | 実装 |

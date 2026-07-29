@@ -36,6 +36,8 @@ export const colors = {
   trackBg: '#EEE4D3',
   toggleOff: '#E4D8C2',
   phText: '#B3A188',
+  outsideTop: '#F1E8D9', // 背景・全体（デバイス外）
+  outsideBottom: '#E4D9C4',
   onboardTop: '#F6EEDF',
   onboardBottom: '#EBDCC3',
   waveA: '#E7C4AE',
@@ -43,6 +45,9 @@ export const colors = {
   knob: '#E7DAC4',
   addTint: '#C29A72',
 };
+
+/// デザイン基準の画面内寸（design_handoff_hakoniwa/README.md「デバイス枠」）
+export const deviceWidth = 402;
 
 // 見出し・タイトル・数字・ボタン = Zen Maru Gothic / 本文・ラベル = Zen Kaku Gothic New
 // Zen Kaku Gothic New に 600 は無いため、CSS のフォールバック規則に合わせ 700 を使う

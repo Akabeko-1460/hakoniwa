@@ -47,6 +47,20 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
 サーバーをつなぐと、端末が壊れても思い出が残り、家族の複数端末で同じハコニワを見られる。
 Flutter 版の **せってい → バックアップ** から接続する。
 
+## Webアプリとして公開する
+
+どちらのアプリも **PCブラウザでもスマホのブラウザでも動く**。
+デザインが画面の内寸 402×874 を前提にしているので、広い画面では
+電話サイズの中央カラムに収め、まわりを指示書どおり「デバイス外」の背景でうめる。
+
+| | ビルド | 出力 | 設定 |
+|---|---|---|---|
+| React Native 版 | `npx expo export --platform web` | `app/dist` | [`app/vercel.json`](app/vercel.json) |
+| Flutter 版 | `flutter build web --release --no-web-resources-cdn` | `app_flutter/build/web` | [`app_flutter/vercel.json`](app_flutter/vercel.json) |
+
+Flutter 版の `--no-web-resources-cdn` は必須。付けないと描画エンジン（CanvasKit）を
+実行時に `www.gstatic.com` から取りにいき、届かないネットワークでは画面が真っ白になる。
+
 ## MVP実装状況
 
 両方のアプリで実装済み。

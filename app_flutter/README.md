@@ -19,6 +19,26 @@ flutter run -d chrome    # PCブラウザで確認
 サーバー（バックアップ・家族間同期）を使う場合は [`../backend/`](../backend/) を起動して、
 アプリの **せってい → バックアップ** から接続する。**つながなくても全機能そのまま動く。**
 
+## Web（Vercel）へのデプロイ
+
+```bash
+flutter build web --release --no-web-resources-cdn
+npx serve build/web
+```
+
+**`--no-web-resources-cdn` は必須。** 付けないと Flutter は描画エンジン
+（CanvasKit）を実行時に `www.gstatic.com` から取りにいく。そこに届かない
+ネットワークだと**画面が真っ白になったまま何も出ない**。このフラグを付けると
+ビルド成果物に同梱されている `build/web/canvaskit/` を使うようになる。
+
+Vercel 用に [`vercel.json`](vercel.json) と [`tool/vercel_build.sh`](tool/vercel_build.sh)
+を置いてある（Flutter SDK が無い環境では取得してからビルドする）。
+
+**PCブラウザで開いたときは、電話サイズ（402px）の中央カラムに収まる。**
+デザインが画面の内寸 402×874 を前提にしているため。`lib/widgets/device_frame.dart`
+が幅 520px 以上のときだけ枠に収め、まわりを「デバイス外」の背景でうめる。
+`MaterialApp.builder` で包んでいるので、ダイアログやボトムシートも枠の中に出る。
+
 ## 実装済み機能
 
 | 機能 | 実装 |

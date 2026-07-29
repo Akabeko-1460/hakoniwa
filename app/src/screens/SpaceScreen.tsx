@@ -5,7 +5,7 @@ import { Image, Modal, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigation/types';
-import { colors, fonts, shadow, frameShadow } from '../theme';
+import { colors, deviceWidth, fonts, shadow, frameShadow } from '../theme';
 import { useStore } from '../store/Store';
 import type { RoomPos } from '../store/types';
 import { useScreenInsets } from '../hooks/useScreenInsets';
@@ -466,7 +466,13 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   viewerTitle: { fontFamily: fonts.maru700, fontSize: 17, color: '#fff', marginBottom: 14 },
-  viewerBox: { width: '100%', aspectRatio: 3 / 4, borderRadius: 20 },
+  viewerBox: {
+    width: '100%',
+    // PCブラウザではモーダルが画面の外側に描かれるので、ここで幅を抑える
+    maxWidth: deviceWidth - 48,
+    aspectRatio: 3 / 4,
+    borderRadius: 20,
+  },
   viewerClose: {
     marginTop: 18,
     backgroundColor: 'rgba(255,255,255,0.16)',

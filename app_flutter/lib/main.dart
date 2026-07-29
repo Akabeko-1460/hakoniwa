@@ -6,6 +6,7 @@ import 'features/voice.dart';
 import 'screens/main_shell.dart';
 import 'screens/onboard_screen.dart';
 import 'state/app_store.dart';
+import 'widgets/device_frame.dart';
 import 'theme.dart';
 
 void main() {
@@ -29,6 +30,9 @@ class HakoniwaApp extends StatelessWidget {
         title: 'ハコニワ',
         debugShowCheckedModeBanner: false,
         theme: buildAppTheme(),
+        // ダイアログやボトムシートも枠の中に出したいので、
+        // Navigator ごと包む builder を使う
+        builder: (context, child) => DeviceFrame(child: child!),
         home: const AppRoot(),
       ),
     );

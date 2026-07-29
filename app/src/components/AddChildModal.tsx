@@ -1,7 +1,7 @@
 // あたらしい ハコニワ（子ども）をつくる — 3D空間の生成につながる入口
 import React, { useState } from 'react';
 import { Modal, StyleSheet, Text, TextInput, View } from 'react-native';
-import { colors, fonts } from '../theme';
+import { colors, deviceWidth, fonts } from '../theme';
 import { TONES } from '../store/types';
 import TapScale from './TapScale';
 
@@ -94,6 +94,9 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '100%',
+    // PCブラウザではモーダルが画面の外側に描かれるので、ここで幅を抑える
+    maxWidth: deviceWidth - 48,
+    alignSelf: 'center',
     backgroundColor: '#fff',
     borderRadius: 24,
     padding: 22,

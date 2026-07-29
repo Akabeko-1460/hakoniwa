@@ -1,0 +1,6 @@
+{
+  "buildCommand": "bash tool/vercel_build.sh",
+  "outputDirectory": "build/web",
+  "installCommand": "echo 'Flutter は buildCommand の中で用意します'",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}

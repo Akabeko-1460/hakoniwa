@@ -18,6 +18,7 @@ import 'package:hakoniwa/screens/onboard_screen.dart';
 import 'package:hakoniwa/screens/space_screen.dart';
 import 'package:hakoniwa/state/app_store.dart';
 import 'package:hakoniwa/theme.dart';
+import 'package:hakoniwa/widgets/device_frame.dart';
 import 'package:provider/provider.dart';
 
 // デザイン基準の画面内寸
@@ -67,10 +68,12 @@ Future<void> _shoot(
   String name,
   Widget home, {
   void Function(AppStore store)? setup,
+  Size? viewport,
 }) async {
   await _loadFonts();
+  final size = viewport ?? _size;
   tester.view
-    ..physicalSize = _size * 3
+    ..physicalSize = size * 3
     ..devicePixelRatio = 3;
   addTearDown(tester.view.reset);
 
@@ -87,7 +90,11 @@ Future<void> _shoot(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: buildAppTheme(),
-        home: RepaintBoundary(key: const ValueKey('shot'), child: home),
+        builder: (context, child) => RepaintBoundary(
+          key: const ValueKey('shot'),
+          child: DeviceFrame(child: child!),
+        ),
+        home: home,
       ),
     ),
   );
@@ -115,6 +122,11 @@ void main() {
 
   testWidgets('space', (t) async {
     await _shoot(t, 'space', const SpaceScreen(childId: 'sota', initialSelectedId: 'bear'));
+  });
+
+  // PCブラウザで開いたときの見え方
+  testWidgets('desktop', (t) async {
+    await _shoot(t, 'desktop', const MainShell(), viewport: const Size(1280, 950));
   });
 
   testWidgets('memory', (t) async {

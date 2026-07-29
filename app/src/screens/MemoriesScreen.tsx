@@ -41,7 +41,7 @@ export default function MemoriesScreen({ navigation }: Props) {
     <View style={styles.root}>
       <View style={[styles.header, { paddingTop: top }]}>
         <Text style={styles.title}>おもいで</Text>
-        <Text style={styles.sub}>ぜんぶで {store.items.length}コ ・ 古いものから いまへ</Text>
+        <Text style={styles.sub}>ぜんぶで {store.items.length}コ ・ 新しいものから むかしへ</Text>
         <View style={styles.searchBar}>
           <SearchIcon size={17} color={colors.textFaint4} />
           <TextInput
