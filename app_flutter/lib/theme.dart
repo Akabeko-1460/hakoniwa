@@ -1,6 +1,5 @@
 // デザイントークン（design_handoff_hakoniwa/README.md セクション3）
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 abstract final class AppColors {
   static const accent = Color(0xFFE08A63); // アクセント（メイン・オレンジ）
@@ -48,34 +47,30 @@ abstract final class AppColors {
   static Color border(double opacity) => shadowBase.withValues(alpha: opacity);
 }
 
-/// 書体の解決口。既定では google_fonts が Google Fonts から取ってくる。
+/// 見出し・タイトル・数字・ボタン = Zen Maru Gothic（同梱）
+/// 本文・ラベル・メモ = Zen Kaku Gothic New（同梱）
 ///
-/// フォントを端末に同梱する構成に変えるときや、通信させたくないテストでは
-/// ここを差し替えれば、呼び出し側（AppFonts）はそのままで済む。
-typedef FontResolver = TextStyle Function({required bool maru, required TextStyle base});
+/// どちらも pubspec.yaml で宣言してアプリに入れてある。実行時に
+/// Google Fonts から取る形にすると、そこに届かないネットワークで
+/// Flutter Web は文字を1つも描かなくなる（assets/fonts/README.md）。
+const String kFontMaru = 'ZenMaruGothic';
+const String kFontKaku = 'ZenKakuGothicNew';
 
-TextStyle _googleFonts({required bool maru, required TextStyle base}) => maru
-    ? GoogleFonts.zenMaruGothic(textStyle: base)
-    : GoogleFonts.zenKakuGothicNew(textStyle: base);
-
-FontResolver fontResolver = _googleFonts;
-
-/// 見出し・タイトル・数字・ボタン = Zen Maru Gothic
-/// 本文・ラベル・メモ = Zen Kaku Gothic New
+/// 片方に無い字はもう片方で拾う
+const List<String> _fallback = [kFontKaku, kFontMaru];
 abstract final class AppFonts {
   static TextStyle maru(
     double size, {
     FontWeight weight = FontWeight.w700,
     Color color = AppColors.textStrong,
     double? height,
-  }) => fontResolver(
-    maru: true,
-    base: TextStyle(
-      fontSize: size,
-      fontWeight: weight,
-      color: color,
-      height: height,
-    ),
+  }) => TextStyle(
+    fontFamily: kFontMaru,
+    fontFamilyFallback: _fallback,
+    fontSize: size,
+    fontWeight: weight,
+    color: color,
+    height: height,
   );
 
   static TextStyle kaku(
@@ -83,14 +78,13 @@ abstract final class AppFonts {
     FontWeight weight = FontWeight.w500,
     Color color = AppColors.textMid,
     double? height,
-  }) => fontResolver(
-    maru: false,
-    base: TextStyle(
-      fontSize: size,
-      fontWeight: weight,
-      color: color,
-      height: height,
-    ),
+  }) => TextStyle(
+    fontFamily: kFontKaku,
+    fontFamilyFallback: _fallback,
+    fontSize: size,
+    fontWeight: weight,
+    color: color,
+    height: height,
   );
 }
 
@@ -136,7 +130,7 @@ ThemeData buildAppTheme() {
   );
   return base.copyWith(
     textTheme: base.textTheme.apply(
-      fontFamily: AppFonts.kaku(14).fontFamily,
+      fontFamily: kFontKaku,
       bodyColor: AppColors.textStrong,
       displayColor: AppColors.textStrong,
     ),

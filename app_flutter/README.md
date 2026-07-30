@@ -53,6 +53,19 @@ Vercel 用に [`vercel.json`](vercel.json) と [`tool/vercel_build.sh`](tool/ver
 | 設定 | スキャン画質（12/20方向）・通知トグル・バックアップ接続・オンボーディング再表示 |
 | **バックアップ / 家族間同期** | FastAPI バックエンド（`../backend/`）へオフラインファーストで同期 |
 
+## 書体を同梱している理由
+
+Zen Maru Gothic / Zen Kaku Gothic New を `assets/fonts/` に入れて配っている
+（OFL。くわしくは [assets/fonts/README.md](assets/fonts/README.md)）。
+
+はじめは `google_fonts` で実行時に取得していたが、**Flutter Web は指定した書体が
+読めないとき、システムフォントに落ちずに文字を1文字も描かない**。ブラウザで
+fonts.gstatic.com を遮断して試すと、背景・画像・ボタンは出るのに文字だけが
+まるごと消える。RN 版は Expo が書体をバンドルに含めるので同じ状況でも文字が出る。
+
+同梱しているのはコードが実際に使う 4 ウェイトだけ（約12MB）。Web の初回転送量は
+Flutter 版 約20MB / RN 版 約23MB で、RN 版のほうがむしろ重い（7ウェイト読む）。
+
 ## 3Dルームについて
 
 RN 版は `expo-gl` + three.js を使っているが、Flutter 版は **Canvas に直接描くソフトウェア
@@ -96,7 +109,9 @@ test/
   integration_sync_test.dart # 実際に動く FastAPI との結合（4ケース・未起動ならスキップ）
   render_preview.dart        # 目視確認用: 部屋を PNG に書き出す
   screenshots.dart           # 目視確認用: 各画面を PNG に書き出す
-tool/fetch_fonts.sh          # 目視確認で日本語を出すための書体を build/fonts/ に落とす
+tool/fetch_fonts.sh          # 同梱書体を Google Fonts から取り直す（ふだん不要）
+tool/vercel_build.sh         # Vercel 用（SDK が無ければ取得してから web ビルド）
+assets/fonts/                # Zen Maru Gothic / Zen Kaku Gothic New（OFL・同梱）
 ```
 
 ## テスト
@@ -115,8 +130,7 @@ flutter test test/integration_sync_test.dart
 ```
 
 `test/screenshots.dart` と `test/render_preview.dart` は目視確認用のツールで、
-`build/preview/` に PNG を書き出す。日本語をちゃんと表示させたいときは先に
-`tool/fetch_fonts.sh` を走らせる（書体は `build/` 配下なので git には入らない）。
+`build/preview/` に PNG を書き出す（書体は同梱してあるので下ごしらえは不要）。
 
 ## RN 版との対応
 

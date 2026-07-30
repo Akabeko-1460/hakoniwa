@@ -13,9 +13,6 @@ dependencies:
   # 状態管理
   provider: ^6.1.2
 
-  # 書体（Zen Maru Gothic / Zen Kaku Gothic New）
-  google_fonts: ^6.2.1
-
   # 3Dスキャン（多方向キャプチャ）
   camera: ^0.11.0+2
   # 写真をそえる
@@ -42,3 +39,20 @@ flutter:
   uses-material-design: true
   assets:
     - assets/room-sample.png
+
+  # 書体は同梱する。実行時に Google Fonts から取る形にすると、
+  # そこに届かないネットワークで Flutter Web は文字を1つも描かない。
+  # くわしくは assets/fonts/README.md
+  fonts:
+    - family: ZenMaruGothic
+      fonts:
+        - asset: assets/fonts/ZenMaruGothic-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/ZenMaruGothic-Black.ttf
+          weight: 900
+    - family: ZenKakuGothicNew
+      fonts:
+        - asset: assets/fonts/ZenKakuGothicNew-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/ZenKakuGothicNew-Bold.ttf
+          weight: 700

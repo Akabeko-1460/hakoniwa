@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hakoniwa/data/local_store.dart';
 import 'package:hakoniwa/features/voice.dart';
 import 'package:hakoniwa/models/models.dart';
@@ -24,27 +23,19 @@ import 'package:provider/provider.dart';
 // デザイン基準の画面内寸
 const _size = Size(402, 874);
 
-/// 書体は本番では google_fonts が取ってくるが、テストでは通信させない。
-/// build/fonts/*.ttf を置いておくと、日本語のまま見た目を確認できる。
-/// （置き場所の用意: tool/fetch_fonts.sh）
+/// 同梱してある書体をテストの描画でも使う（既定のテスト用フォントだと
+/// 日本語が四角になってしまい、見た目の確認にならない）。
 Future<void> _loadFonts() async {
-  GoogleFonts.config.allowRuntimeFetching = false;
-  final dir = Directory('build/fonts');
-  if (!dir.existsSync()) return;
-
-  final families = <String>{};
-  for (final file in dir.listSync().whereType<File>()) {
-    if (!file.path.endsWith('.ttf')) continue;
-    final family = file.uri.pathSegments.last.split('-').first;
-    families.add(family);
-    final loader = FontLoader(family)
-      ..addFont(Future.value(file.readAsBytesSync().buffer.asByteData()));
+  for (final family in const ['ZenMaruGothic', 'ZenKakuGothicNew']) {
+    final loader = FontLoader(family);
+    for (final file in Directory('assets/fonts')
+        .listSync()
+        .whereType<File>()
+        .where((f) => f.path.contains(family) && f.path.endsWith('.ttf'))) {
+      loader.addFont(Future.value(file.readAsBytesSync().buffer.asByteData()));
+    }
     await loader.load();
   }
-  if (families.isEmpty) return;
-
-  fontResolver = ({required bool maru, required TextStyle base}) =>
-      base.copyWith(fontFamily: maru ? 'ZenMaruGothic' : 'ZenKakuGothicNew');
 }
 
 class _MemoryStore extends LocalStore {

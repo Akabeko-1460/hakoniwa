@@ -82,4 +82,26 @@ Flutter 版の `--no-web-resources-cdn` は必須。付けないと描画エン�
 | **3Dルーム** | expo-gl + **three.js** | **自前のソフトウェア3Dレンダラ**（Canvas に直接描く。ネイティブGL不要で、Web でもテストの中でも同じ絵になる） |
 | カメラ / 写真 / 音声 | expo-camera / expo-image-picker / expo-audio | camera / image_picker / record + audioplayers |
 | 永続化 | expo-file-system（Web は localStorage） | ドキュメント領域に JSON + メディア（Web は shared_preferences） |
+| 書体 | Expo がバンドルに含める（7ウェイト） | アプリに同梱（4ウェイト） |
 | サーバー同期 | （未対応） | FastAPI バックエンドへ同期 |
+
+### React Native ならできて、Flutter ではできない（またはかなり手間な）こと
+
+作ってみて実際にぶつかった差。**いちばん効くのは「Flutter Web は画面を1枚の
+canvas に描く」ことから来る制約**で、Web アプリとして出すときに響く。
+
+| できないこと | 中身 |
+|---|---|
+| ブラウザの**ページ内検索・テキスト選択・翻訳** | Flutter Web は文字も canvas に描くので、DOM に文字が無い。Ctrl+F も選択もブラウザ翻訳も効かない。RN 版は本物の DOM なので全部効く |
+| **SEO / クローラに読ませる** | 同じ理由で HTML に本文が出ない。RN 版は HTML として読める |
+| **書体が読めないときの代替** | Flutter Web は指定書体を読めないとき、システムフォントに落ちず**文字を1文字も描かない**。RN 版（CSS）はブラウザのフォントに落ちる。→ 書体を同梱して回避した |
+| **軽い初回ロード** | CanvasKit（描画エンジン、約5.5MB）の取得と初期化が必要。RN 版は JS バンドルだけ |
+| **three.js などブラウザの資産をそのまま使う** | RN 版は three.js をそのまま載せられた。Flutter に同等の成熟した3Dライブラリが無く、レンダラを自作した |
+| **Vercel の標準ビルドにそのまま乗る** | RN/Expo は Node ベースなので設定だけで動く。Flutter は SDK を取得するスクリプトが必要（[`tool/vercel_build.sh`](app_flutter/tool/vercel_build.sh)） |
+| **Expo Go / OTA 更新**（未検証・一般論） | QRコードを読むだけで実機確認、ストア審査なしでJS差し替え、が RN/Expo の強み。Flutter は実機に入れるにもビルドが必要で、更新はストア経由 |
+
+逆に **Flutter のほうが素直だった**ところ:
+
+- モーダルが素直。RN Web は `Modal` が `<body>` 直下に描かれるので、電話幅の枠に収める細工が別途必要だった（Flutter は `MaterialApp.builder` で包めば全部入る）
+- 描画の表現力。放射グラデーションや縞模様・波形・アイコンを `CustomPainter` で素直に書けた（RN では放射グラデが素で無く、線形で近似した）
+- 3Dがテストの中で描ける。自前レンダラなので、ウィジェットテストで実際に描画してタップ判定まで検証できた
